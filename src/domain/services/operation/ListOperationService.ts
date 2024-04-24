@@ -1,18 +1,18 @@
-import { RecordRow } from '@infrastructure/database/models/Record';
+import { OperationRow } from '@infrastructure/database/models/Operation';
 import { PaginationResult } from '@infrastructure/pagination/default.pagination';
 
-export interface ListRecordRepository {
+export interface ListOperationRepository {
   list(
     page: number,
     size: number,
     criteria?: string,
     orderColumn?: string,
     orderDirection?: string,
-  ): Promise<PaginationResult<RecordRow[]>>;
+  ): Promise<PaginationResult<OperationRow[]>>;
 }
 
-export class ListRecordService {
-  constructor(private repository: ListRecordRepository) {}
+export class ListOperationService {
+  constructor(private repository: ListOperationRepository) {}
 
   async list(page: number, size: number, criteria?: string, orderColumn?: string, orderDirection?: string) {
     return this.repository.list(page, size, criteria, orderColumn, orderDirection);

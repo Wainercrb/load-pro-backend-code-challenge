@@ -3,31 +3,31 @@ module.exports = {
     const seedData = [
       {
         username: 'admin',
-        password: '$2a$10$BzpkdblTeZk8zzb1tW1Li.6wo9vQNpW8NmH9ScnmNfHKiqqJ95.G.',
+        password: '$2a$10$U0njzGrKQIdtgbbsaXtQZeb4UlzCzL88lm1J653xm81.7UvdwDT4K',
         role: 'admin',
         balance: 10000,
       },
       {
         username: 'juan',
-        password: '$2a$10$BzpkdblTeZk8zzb1tW1Li.6wo9vQNpW8NmH9ScnmNfHKiqqJ95.G.',
+        password: '$2a$10$U0njzGrKQIdtgbbsaXtQZeb4UlzCzL88lm1J653xm81.7UvdwDT4K',
         role: 'guess',
         balance: 7000,
       },
       {
         username: 'luis',
-        password: '$2a$10$BzpkdblTeZk8zzb1tW1Li.6wo9vQNpW8NmH9ScnmNfHKiqqJ95.G.',
+        password: '$2a$10$U0njzGrKQIdtgbbsaXtQZeb4UlzCzL88lm1J653xm81.7UvdwDT4K',
         role: 'guess',
         balance: 7600,
       },
       {
         username: 'carlos',
-        password: '$2a$10$BzpkdblTeZk8zzb1tW1Li.6wo9vQNpW8NmH9ScnmNfHKiqqJ95.G.',
+        password: '$2a$10$U0njzGrKQIdtgbbsaXtQZeb4UlzCzL88lm1J653xm81.7UvdwDT4K',
         role: 'guess',
         balance: 7100,
       },
       {
         username: 'lucas',
-        password: '$2a$10$BzpkdblTeZk8zzb1tW1Li.6wo9vQNpW8NmH9ScnmNfHKiqqJ95.G.',
+        password: '$2a$10$U0njzGrKQIdtgbbsaXtQZeb4UlzCzL88lm1J653xm81.7UvdwDT4K',
         role: 'guess',
         balance: 7800,
       },

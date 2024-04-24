@@ -34,6 +34,10 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false,
       },
+      isDeleted: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+      },
     });
 
     // await queryInterface.addConstraint('records', {

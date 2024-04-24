@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CreateRecordRepository } from '@domain/services/CreateRecordService';
+import { CreateRecordRepository } from '@domain/services/record/CreateRecordService';
 import { RecordRow, SequelizeRecord } from '@infrastructure/database/models/Record';
 import { Record } from '@domain/entities/Record/Record';
 
@@ -11,6 +11,7 @@ export class SequelizeCreateRecordRepository implements CreateRecordRepository {
       amount: record.getAmount(),
       operation_response: record.getOperationResponse(),
       date: record.getDate(),
+      isDeleted: record.getIsDeleted(),
     });
 
     return {
@@ -20,6 +21,7 @@ export class SequelizeCreateRecordRepository implements CreateRecordRepository {
       amount: userSaved.amount,
       operation_response: userSaved.operation_response,
       date: userSaved.date,
+      isDeleted: userSaved.isDeleted,
     };
   }
 }

@@ -2,7 +2,7 @@ import z, { ZodError } from 'zod';
 import bcrypt from 'bcryptjs';
 import { Request, Response } from 'express';
 import { ValidationError } from '@domain/errors/ValidationError';
-import { SignInUserService } from '@domain/services/SignInUserService';
+import { SignInUserService } from '@domain/services/user/SignInUserService';
 import { createAccessToken } from '@infrastructure/middleware/jwt/AccessToken';
 import { AuthUser } from '@infrastructure/middleware/auth.middleware';
 
@@ -22,13 +22,13 @@ export class SignInUserController {
 
       if (!userFound)
         return res.status(400).json({
-          message: ['Invalid credentials'],
+          message: 'Invalid credentials',
         });
 
       const isMatch = await bcrypt.compare(password, userFound.password);
       if (!isMatch) {
         return res.status(400).json({
-          message: ['Invalid credentials'],
+          message: 'Invalid credentials',
         });
       }
 
@@ -37,7 +37,7 @@ export class SignInUserController {
         role: userFound.role,
         username: userFound.username,
       };
-      
+
       const token = await createAccessToken(response);
 
       res.cookie('token', token, {
@@ -46,11 +46,8 @@ export class SignInUserController {
         sameSite: 'none',
       });
 
-      res.status(200).json(response);
-
-      return res;
+      return res.status(200).json(response);
     } catch (err) {
-      console.log(err)
       if (err instanceof ValidationError) {
         return res.status(400).json({ error: err.message });
       }
@@ -59,7 +56,12 @@ export class SignInUserController {
         return res.status(400).json({ error: err.errors });
       }
 
-      return res.status(500).end();
+      return res
+        .status(500)
+        .json({
+          error: 'Error processing your request, please check the logs',
+        })
+        .end();
     }
   }
 }

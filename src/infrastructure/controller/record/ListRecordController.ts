@@ -1,7 +1,8 @@
 import z, { ZodError } from 'zod';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { ValidationError } from '@domain/errors/ValidationError';
-import { ListRecordService } from '@domain/services/ListRecordService';
+import { ListRecordService } from '@domain/services/record/ListRecordService';
+import { MiddlewareRequest } from '@infrastructure/middleware/auth.middleware';
 
 const zodNumber = z.number();
 const payload = z.object({
@@ -23,11 +24,17 @@ const payload = z.object({
 export class ListRecordController {
   constructor(private service: ListRecordService) {}
 
-  async handle(req: Request, res: Response) {
+  async handle(req: MiddlewareRequest, res: Response) {
     try {
+      const id = req.user?.id;
+
+      if (!id) return res.status(401).json({ message: 'No user found, authorization denied' });
+
+      console.log(req.query);
+
       const { page, size, criteria, orderColumn, orderDirection } = payload.parse(req.query);
 
-      const record = await this.service.list(page, size, criteria, orderColumn, orderDirection);
+      const record = await this.service.list(id, page, size, criteria, orderColumn, orderDirection);
 
       return res.status(200).json(record);
     } catch (err) {
@@ -40,7 +47,12 @@ export class ListRecordController {
         return res.status(400).json({ error: err.errors });
       }
 
-      return res.status(500).end();
+      return res
+        .status(500)
+        .json({
+          error: 'Error processing your request, please check the logs',
+        })
+        .end();
     }
   }
 }

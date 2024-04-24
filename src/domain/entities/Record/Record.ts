@@ -3,14 +3,23 @@ export class Record {
   private user_id: number;
   private amount: number;
   private operation_response: string;
+  private isDeleted: boolean;
   private date: Date;
 
-  constructor(operation_id: number, user_id: number, amount: number, operation_response: string, date: Date) {
+  constructor(
+    operation_id: number,
+    user_id: number,
+    amount: number,
+    operation_response: string,
+    date: Date,
+    isDeleted: boolean,
+  ) {
     this.operation_id = operation_id;
     this.user_id = user_id;
     this.amount = amount;
     this.operation_response = operation_response;
     this.date = date;
+    this.isDeleted = isDeleted;
   }
 
   getOperationId(): number {
@@ -30,5 +39,9 @@ export class Record {
 
   getDate(): Date {
     return this.date;
+  }
+
+  getIsDeleted(): boolean {
+    return this.isDeleted;
   }
 }

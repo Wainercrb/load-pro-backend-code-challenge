@@ -7,7 +7,6 @@
       "@application/*":["application/*"],
       "@domain/*":["domain/*"],
       "@infrastructure/*":["infrastructure/*"],
-
     }
   },
   "include": ["src", "test/application/factories/CreateUserControllerFactory.test.ts"],

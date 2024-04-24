@@ -9,6 +9,7 @@ export interface RecordRow {
   operation_id: number;
   amount: number;
   operation_response: string;
+  isDeleted: boolean;
   date: Date;
 }
 
@@ -20,6 +21,7 @@ class SequelizeRecord extends Model<RecordRow, Omit<RecordRow, 'id'>> {
   declare user_id: number;
   declare operation_id: number;
   declare user: SequelizeUser;
+  declare isDeleted: boolean;
   declare operation: SequelizeOperation;
 }
 
@@ -57,6 +59,10 @@ SequelizeRecord.init(
         model: 'operations',
         key: 'id'
       }
+    },
+    isDeleted: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
     },
   },
   {

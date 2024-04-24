@@ -1,6 +1,6 @@
 import sequelize from 'sequelize';
 import { Op, Order, WhereOptions } from 'sequelize';
-import { ListRecordRepository } from '@domain/services/ListRecordService';
+import { ListRecordRepository } from '@domain/services/record/ListRecordService';
 import { SequelizeOperation } from '@infrastructure/database/models/Operation';
 import { RecordRow, SequelizeRecord } from '@infrastructure/database/models/Record';
 import { SequelizeUser } from '@infrastructure/database/models/User';
@@ -13,8 +13,8 @@ import {
 export const RECORD_COLUMN_ORDER_MAPPING: Record<string, string> = {
   userUsername: 'user.username',
   userRole: 'user.role',
-  operationType: 'operation.amount',
-  operationCost: 'operation.amount',
+  operationType: 'operation.type',
+  operationCost: 'operation.cost',
   recordDate: 'date',
   recordAmount: 'amount',
   recordOperationResponse: 'operation_response',
@@ -22,6 +22,7 @@ export const RECORD_COLUMN_ORDER_MAPPING: Record<string, string> = {
 
 export class SequelizeListRecordRepository implements ListRecordRepository {
   async list(
+    userId: number,
     page: number,
     size: number,
     criteria?: string,
@@ -31,16 +32,21 @@ export class SequelizeListRecordRepository implements ListRecordRepository {
     const { limit, offset } = buildPaginationRequest(page, size);
 
     let order: Order = [];
-    let where: WhereOptions<RecordRow> = {};
+    let where: WhereOptions<RecordRow> = {
+      user_id: userId,
+      isDeleted: false,
+    };
 
     const selectedOrderColumn = RECORD_COLUMN_ORDER_MAPPING[orderColumn || ''];
-
+    console.log(selectedOrderColumn, orderDirection, orderColumn);
     if (selectedOrderColumn && orderDirection) {
       order = [[sequelize.col(selectedOrderColumn), orderDirection]];
     }
 
     if (criteria && criteria.length) {
       where = {
+        user_id: userId,
+        isDeleted: false,
         [Op.or]: [
           { '$user.username$': { [Op.substring]: criteria } },
           { '$user.role$': { [Op.substring]: criteria } },
@@ -84,6 +90,7 @@ export class SequelizeListRecordRepository implements ListRecordRepository {
           amount,
           operation_response,
           date,
+          isDeleted: false,
         };
       },
     );

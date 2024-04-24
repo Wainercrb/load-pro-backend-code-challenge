@@ -1,12 +1,12 @@
 import z, { ZodError } from 'zod';
 import bcrypt from 'bcryptjs';
 import { Request, Response } from 'express';
-import { ValidationError } from '@domain/errors/ValidationError';
-import { CreateUserService } from '@domain/services/CreateUserService';
-import { Role } from '@domain/entities/User/User';
-import { SignInUserService } from '@domain/services/SignInUserService';
 import { createAccessToken } from '@infrastructure/middleware/jwt/AccessToken';
+import { ValidationError } from '@domain/errors/ValidationError';
+import { CreateUserService } from '@domain/services/user/CreateUserService';
+import { SignInUserService } from '@domain/services/user/SignInUserService';
 import { AuthUser } from '@infrastructure/middleware/auth.middleware';
+import { Role } from '@domain/entities/User/User';
 
 const payload = z.object({
   username: z.string().min(3).max(50),
@@ -28,7 +28,7 @@ export class CreateUserController {
 
       if (userFound)
         return res.status(400).json({
-          message: ['The email is already in use'],
+          message: 'The email is already in use',
         });
 
       const passwordHash = await bcrypt.hash(password, 10);
@@ -59,7 +59,12 @@ export class CreateUserController {
         return res.status(400).json({ error: err.errors });
       }
 
-      return res.status(500).end();
+      return res
+        .status(500)
+        .json({
+          error: 'Error processing your request, please check the logs',
+        })
+        .end();
     }
   }
 }

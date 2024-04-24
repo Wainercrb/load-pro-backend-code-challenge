@@ -1,5 +1,5 @@
 import { SequelizeUser, UserRow } from '@infrastructure/database/models/User';
-import { SignInUserRepository } from '@domain/services/SignInUserService';
+import { SignInUserRepository } from '@domain/services/user/SignInUserService';
 
 export class SequelizeSignInUserRepository implements SignInUserRepository {
   async findByUsername(username: string): Promise<UserRow | null> {
